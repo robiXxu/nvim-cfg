@@ -15,14 +15,15 @@ vim.cmd("set mouse-=a")
 vim.o.termguicolors = true
 -- vim.o.background = 'dark'
 
-
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.numberwidth = 5
 
 vim.opt.clipboard = "unnamedplus"
 
-vim.o.history = 100
+vim.o.history = 999
+
+vim.o.updatetime = 300
 
 -- Preserve view while jumping
 vim.o.jumpoptions = "view"
@@ -54,9 +55,10 @@ vim.o.incsearch = true
 vim.o.expandtab = true
 --vim.o.cindent = true
 -- <Tab> in front of a line inserts blanks according to 'shiftwidth'
-vim.o.smarttab = true
-vim.o.shiftwidth = 2
-vim.o.tabstop = 2
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.bo.softtabstop = 2
 -- better commandline tab completion
 vim.o.wildmode = "list:longest,list:full"
 -- splitting a window will put the new window right of the current one.

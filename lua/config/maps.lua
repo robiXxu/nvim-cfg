@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 
 local function map(mode, key, value)
-	vim.keymap.set(mode, key, value, {silent = true})
+	vim.keymap.set(mode, key, value, { silent = true })
 end
 
 map("n", "<LEADER>pv", vim.cmd.Ex)
@@ -42,7 +42,6 @@ map("t", "<C-j>", "<C-\\><C-n><C-w>j")
 map("t", "<C-k>", "<C-\\><C-n><C-w>k")
 map("t", "<C-l>", "<C-\\><C-n><C-w>l")
 
-
 vim.keymap.set("n", "=", [[<cmd>vertical resize +5<cr>]]) -- make the window biger vertically
 vim.keymap.set("n", "-", [[<cmd>vertical resize -5<cr>]]) -- make the window smaller vertically
 vim.keymap.set("n", "+", [[<cmd>horizontal resize +2<cr>]]) -- make the window bigger horizontally by pressing shift and =
@@ -53,7 +52,6 @@ map("", "<C-n><C-t>", "<ESC>:terminal<CR>")
 
 map("n", "<leader>sv", "<cmd>:source $MYVIMRC<CR>")
 
-
 -- visual move + auto indent
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
@@ -61,24 +59,21 @@ map("v", "K", ":m '<-2<CR>gv=gv")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
-
-
--- visual paste fix 
+-- visual paste fix
 --map("x", "<leader>p", "\"_dP")
 
 -- don't do it
-map("n", "Q", "<nop>")
+-- map("n", "Q", "<nop>")
 
 -- fast replace word under cursor
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
 
-map('n', '<leader>aa', '<cmd>ArduinoAttach<CR>')
-map('n', '<leader>av', '<cmd>ArduinoVerify<CR>')
-map('n', '<leader>au', '<cmd>ArduinoUpload<CR>')
-map('n', '<leader>aus', '<cmd>ArduinoUploadAndSerial<CR>')
-map('n', '<leader>as', '<cmd>ArduinoSerial<CR>')
-map('n', '<leader>ab', '<cmd>ArduinoChooseBoard<CR>')
-map('n', '<leader>ap', '<cmd>ArduinoChooseProgrammer<CR>')
+map("n", "<leader>aa", "<cmd>ArduinoAttach<CR>")
+map("n", "<leader>av", "<cmd>ArduinoVerify<CR>")
+map("n", "<leader>au", "<cmd>ArduinoUpload<CR>")
+map("n", "<leader>aus", "<cmd>ArduinoUploadAndSerial<CR>")
+map("n", "<leader>as", "<cmd>ArduinoSerial<CR>")
+map("n", "<leader>ab", "<cmd>ArduinoChooseBoard<CR>")
+map("n", "<leader>ap", "<cmd>ArduinoChooseProgrammer<CR>")
 
 map("n", "<leader>lg", "<cmd>LazyGit<CR>")
-

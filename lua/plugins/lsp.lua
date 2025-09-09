@@ -2,10 +2,10 @@ return {
 	-- Main LSP Configuration
 	"neovim/nvim-lspconfig",
 	dependencies = {
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		-- Automatically install LSPs and related tools to stdpath for Neovim
 		{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
 		"williamboman/mason-lspconfig.nvim",
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 		-- Useful status updates for LSP.
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -94,6 +94,9 @@ return {
 				--  For example, in C this would take you to the header.
 				map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
+				map("gH", vim.lsp.buf.hover, "Hover Documentation")
+				map("gh", vim.lsp.buf.hover, "Hover Documentation")
+
 				-- The following two autocommands are used to highlight references of the
 				-- word under your cursor when your cursor rests there for a little while.
 				--    See `:help CursorHold` for information about when this is executed
@@ -123,7 +126,21 @@ return {
 					})
 				end
 
-				-- The following code creates a keymap to toggle inlay hints in your
+				-- vim.api.nvim_create_autocmd("CursorHold", {
+				-- 	pattern = "*",
+				-- 	callback = function()
+				-- 		if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_hoverProvider) then
+				-- 			local opts = {
+				-- 				focusable = false, -- Prevent interaction
+				-- 				border = "rounded", -- Aesthetic rounded borders
+				-- 				source = "always", -- Show source of the hover info
+				-- 				prefix = "", -- No extra symbols before the hover text
+				-- 			}
+				-- 			vim.lsp.buf.hover(opts)
+				-- 		end
+				-- 	end,
+				-- })
+
 				-- code, if the language server you are using supports them
 				--
 				-- This may be unwanted, since they displace some of your code
@@ -133,6 +150,13 @@ return {
 					end, "[T]oggle Inlay [H]ints")
 				end
 			end,
+		})
+		vim.diagnostic.config({
+			virtual_text = true, -- shows inline
+			signs = true,
+			underline = true,
+			update_in_insert = false,
+			severity_sort = true,
 		})
 
 		-- Change diagnostic symbols in the sign column (gutter)

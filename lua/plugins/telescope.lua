@@ -1,13 +1,12 @@
 local actions = require("telescope.actions")
 local lactions = require("telescope.actions.layout")
-local finders = require("telescope.builtin")
 
 local Telescope = setmetatable({}, {
 	__index = function(_, k)
 		if vim.bo.filetype == "NvimTree" then
 			vim.cmd.wincmd("l")
 		end
-		return finders[k]
+		return require("telescope.builtin")[k]
 	end,
 })
 
@@ -21,22 +20,28 @@ return {
 		-- Useful for getting pretty icons, but requires a Nerd Font.
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 	},
+
 	opts = {
 		defaults = {
+			debug = true,
 			winblend = 0,
 			layout_strategy = "vertical",
+			layout_config = {
+				vertical = {
+					width = 0.8,
+					height = 0.9,
+					prompt_position = "top",
+				},
+			},
+			prompt_prefix = " ❯ ",
+			initial_mode = "insert",
+			sorting_strategy = "ascending",
 			file_ignore_patterns = {
 				"node_modules",
 				"vendor",
 				".git",
 				".yardoc",
 				"doc",
-			},
-			prompt_prefix = " ❯ ",
-			initial_mode = "insert",
-			sorting_strategy = "ascending",
-			layout_config = {
-				prompt_position = "top",
 			},
 			mappings = {
 				i = {
@@ -50,6 +55,36 @@ return {
 				},
 			},
 		},
+
+		-- defaults = {
+		-- 	debug = true,
+		-- 	winblend = 0,
+		-- 	layout_strategy = "vertical",
+		-- 	file_ignore_patterns = {
+		-- 		"node_modules",
+		-- 		"vendor",
+		-- 		".git",
+		-- 		".yardoc",
+		-- 		"doc",
+		-- 	},
+		-- 	prompt_prefix = " ❯ ",
+		-- 	initial_mode = "insert",
+		-- 	sorting_strategy = "ascending",
+		-- 	layout_config = {
+		-- 		prompt_position = "top",
+		-- 	},
+		-- 	mappings = {
+		-- 		i = {
+		-- 			["<ESC>"] = actions.close,
+		-- 			["<C-j>"] = actions.move_selection_next,
+		-- 			["<C-k>"] = actions.move_selection_previous,
+		-- 			["<TAB>"] = actions.toggle_selection + actions.move_selection_next,
+		-- 			["<C-s>"] = actions.send_selected_to_qflist,
+		-- 			["<C-q>"] = actions.send_to_qflist,
+		-- 			["<C-h>"] = lactions.toggle_preview,
+		-- 		},
+		-- 	},
+		-- },
 		extensions = {
 			fzf = {
 				fuzzy = true,
@@ -74,7 +109,7 @@ return {
 		},
 		{
 			"'w",
-			Telescope.grep_strings,
+			Telescope.grep_string,
 		},
 		{
 			"'r",
@@ -83,6 +118,10 @@ return {
 		{
 			"'c",
 			Telescope.git_status,
+		},
+		{
+			"'m",
+			Telescope.marks,
 		},
 	},
 }
