@@ -7,7 +7,7 @@ return {
 		local claude_code = require("../components/claude_code")
 		local macro_recording = require("../components/macro_recording")
 		local mode_icons = require("../components/mode_icons")
-		local git_info = require("../components/git_info")
+		local file_icon = require("../components/file_icon")
 
 		local function current_command()
 			local cmd = vim.fn.getcmdline()
@@ -35,27 +35,22 @@ return {
 					mode_icons,
 				},
 				lualine_b = {
+					{ "branch", icon = "󰊤", colored = true, color = { fg = "#eb6f92", gui = "bold" } },
 					{
-						git_info,
-						-- Standard padding/separators for the whole git block
-						padding = { left = 1, right = 1 },
+						"diff",
+						colored = true,
+						symbols = {
+							added = " ",
+							modified = " ",
+							removed = " ",
+						},
+						diff_color = {
+							-- Explicitly using Horizon-style colors to make them "pop"
+							added = { fg = "#29D398" }, -- Horizon Green
+							modified = { fg = "#FAB795" }, -- Horizon Orange/Gold
+							removed = { fg = "#E95678" }, -- Horizon Red/Pink
+						},
 					},
-					-- { "branch", icon = "" },
-					-- {
-					-- 	"diff",
-					-- 	colored = true,
-					-- 	symbols = {
-					-- 		added = "󰐙 ",
-					-- 		modified = "󰏬 ",
-					-- 		removed = " ",
-					-- 	},
-					-- 	diff_color = {
-					-- 		-- Explicitly using Horizon-style colors to make them "pop"
-					-- 		added = { fg = "#29D398" }, -- Horizon Green
-					-- 		modified = { fg = "#FAB795" }, -- Horizon Orange/Gold
-					-- 		removed = { fg = "#E95678" }, -- Horizon Red/Pink
-					-- 	},
-					-- },
 					{
 						macro_recording,
 						color = { fg = "#eb6f92", gui = "bold" },
@@ -109,20 +104,14 @@ return {
 						padding = { left = 1, right = 1 },
 						color = { fg = "#f6c177", gui = "bold" },
 					},
-					-- {
-					-- 	function()
-					-- 		return "󱙺 " .. claude_total_cost
-					-- 	end,
-					-- 	padding = { left = 1, right = 1 }, -- Tighten the gap
-					-- 	color = { fg = "#f6c177", gui = "bold" }, -- Horizon Gold
-					-- 	on_click = function()
-					-- 		-- Optional: Clicking the cost runs the script in a terminal
-					-- 		vim.cmd("split | term python3 " .. CLAUDE_TRACKER_PATH .. " --daily")
-					-- 	end,
-					-- },
-					"encoding",
-					"fileformat",
-					"filetype",
+					{
+						file_icon,
+						padding = { left = 1, right = 2 },
+						color = { gui = "bold" },
+					},
+					-- "encoding",
+					-- "fileformat",
+					-- "filetype",
 				},
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
