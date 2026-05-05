@@ -1,6 +1,21 @@
 return {
 	-- Main LSP Configuration
 	"neovim/nvim-lspconfig",
+	opts = {
+		servers = {
+			vtsls = {
+				settings = {
+					-- other preferences...
+					typescript = {
+						preferences = {
+							importModuleSpecifier = "relative",
+							importModuleSpecifierEnding = "minimal",
+						},
+					},
+				},
+			},
+		},
+	},
 	dependencies = {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		-- Automatically install LSPs and related tools to stdpath for Neovim

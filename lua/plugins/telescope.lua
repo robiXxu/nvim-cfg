@@ -94,6 +94,16 @@ return {
 			},
 		},
 	},
+	pickers = {
+		marks = {
+			attach_mappings = function(prompt_bufnr, map)
+				map("i", "<C-d>", function()
+					require("telescope.actions").delete_mark(prompt_bufnr)
+				end)
+				return true -- Keep default mappings as well as the custom ones
+			end,
+		},
+	},
 	keys = {
 		{
 			"<C-P>",

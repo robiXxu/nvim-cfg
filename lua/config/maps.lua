@@ -68,21 +68,26 @@ map("n", "N", "Nzzzv")
 -- fast replace word under cursor
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
 
-map("n", "<leader>aa", "<cmd>ArduinoAttach<CR>")
-map("n", "<leader>av", "<cmd>ArduinoVerify<CR>")
-map("n", "<leader>au", "<cmd>ArduinoUpload<CR>")
-map("n", "<leader>aus", "<cmd>ArduinoUploadAndSerial<CR>")
-map("n", "<leader>as", "<cmd>ArduinoSerial<CR>")
-map("n", "<leader>ab", "<cmd>ArduinoChooseBoard<CR>")
-map("n", "<leader>ap", "<cmd>ArduinoChooseProgrammer<CR>")
+-- map("n", "<leader>aa", "<cmd>ArduinoAttach<CR>")
+-- map("n", "<leader>av", "<cmd>ArduinoVerify<CR>")
+-- map("n", "<leader>au", "<cmd>ArduinoUpload<CR>")
+-- map("n", "<leader>aus", "<cmd>ArduinoUploadAndSerial<CR>")
+-- map("n", "<leader>as", "<cmd>ArduinoSerial<CR>")
+-- map("n", "<leader>ab", "<cmd>ArduinoChooseBoard<CR>")
+-- map("n", "<leader>ap", "<cmd>ArduinoChooseProgrammer<CR>")
 
-map("n", "<leader>lg", "<cmd>LazyGit<CR>")
+-- map("n", "<leader>lg", "<cmd>LazyGit<CR>")
+-- map("n", "<leader>cc", "<cmd>ClaudeCode<CR>")
 
-
-vim.api.nvim_set_keymap('n', '<leader>do', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>d[', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>d]', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
--- The following command requires plug-ins "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", and optionally "kyazdani42/nvim-web-devicons" for icon support
-vim.api.nvim_set_keymap('n', '<leader>dd', '<cmd>Telescope diagnostics<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>do",
+	"<cmd>lua vim.diagnostic.open_float()<CR>",
+	{ noremap = true, silent = true }
+)
+-- vim.api.nvim_set_keymap("n", "<leader>d[", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<leader>d]", "<cmd>lua vim.diagnostic.goto_next()<CR>", { noremap = true, silent = true })
+-- -- The following command requires plug-ins "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", and optionally "kyazdani42/nvim-web-devicons" for icon support
+-- vim.api.nvim_set_keymap("n", "<leader>dd", "<cmd>Telescope diagnostics<CR>", { noremap = true, silent = true })
 -- If you don't want to use the telescope plug-in but still want to see all the errors/warnings, comment out the telescope line and uncomment this:
 -- vim.api.nvim_set_keymap('n', '<leader>dd', '<cmd>lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
