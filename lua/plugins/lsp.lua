@@ -81,7 +81,7 @@ return {
 				end
 				if client and client.name == "vtsls" then
 					-- 1. Organize Imports (Force Relative)
-					vim.keymap.set("n", "<leader>co", function()
+					vim.keymap.set("n", "<leader>fk", function()
 						client.request("workspace/executeCommand", {
 							command = "_typescript.organizeImports",
 							arguments = { vim.api.nvim_buf_get_name(0) },
@@ -92,20 +92,7 @@ return {
 								vim.notify("📦 Imports organized (Relative)", vim.log.levels.INFO)
 							end
 						end)
-					end, { buffer = event.buf, desc = "Organize Imports (Relative)" })
 
-					-- 2. Fix All (Optional: handles unused imports/types)
-					vim.keymap.set("n", "<leader>cf", function()
-						client.request("workspace/executeCommand", {
-							command = "_typescript.fixAll",
-							arguments = { vim.api.nvim_buf_get_name(0) },
-						}, function(err)
-							if not err then
-								vim.notify("🛠️ Fix All applied", vim.log.levels.INFO)
-							end
-						end)
-					end, { buffer = event.buf, desc = "LSP: Fix All" })
-					vim.keymap.set("n", "<leader>cs", function()
 						client.request("workspace/executeCommand", {
 							command = "_typescript.sortImports",
 							arguments = { vim.api.nvim_buf_get_name(0) },
@@ -114,7 +101,16 @@ return {
 								vim.notify("🔡 Imports sorted alphabetically", vim.log.levels.INFO)
 							end
 						end)
-					end, { buffer = event.buf, desc = "Sort Imports Only" })
+
+						client.request("workspace/executeCommand", {
+							command = "_typescript.fixAll",
+							arguments = { vim.api.nvim_buf_get_name(0) },
+						}, function(err)
+							if not err then
+								vim.notify("🛠️ Fix All applied", vim.log.levels.INFO)
+							end
+						end)
+					end, { buffer = event.buf, desc = "Unfuck everything" })
 				end
 			end,
 		})

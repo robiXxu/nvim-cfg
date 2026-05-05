@@ -10,7 +10,7 @@ return {
 				background_colour = "#191724",
 				-- Optional: "static" stages look better if you have Alacritty opacity set
 				stages = "static",
-				timeout = 2000,
+				timeout = 3000,
 				render = "wrapped-compact", -- "compact" or "wrapped-compact" feels less spammy
 			},
 		},
