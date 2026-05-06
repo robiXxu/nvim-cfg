@@ -5,6 +5,7 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		"hrsh7th/cmp-nvim-lsp",
+		"ray-x/lsp_signature.nvim",
 		{
 			"folke/lazydev.nvim",
 			ft = "lua",
@@ -22,6 +23,32 @@ return {
 				-- Load luvit types when the `vim.uv` word is found
 				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 			},
+		})
+
+		vim.diagnostic.config({
+			virtual_text = {
+				prefix = "",
+				spacing = 4,
+			},
+			signs = true,
+			underline = true,
+			update_in_insert = false, -- Don't flicker errors while typing
+			severity_sort = true,
+		})
+		local lsp_signature = require("lsp_signature")
+		lsp_signature.setup({
+			bind = true, -- This is mandatory, otherwise border config won't get registered
+			handler_opts = {
+				border = "rounded",
+			},
+			hint_enable = true, -- This is the "Virtual Text" part
+			hint_prefix = "󰏪 ", -- Icon for the signature
+			hint_scheme = "Comment", -- Color for the virtual text (we can change this)
+			hi_parameter = "LspSignatureActiveParameter", -- Highlight for current param
+			max_height = 12,
+			max_width = 80,
+			timer_interval = 200,
+			extra_trigger_chars = {}, -- Array of extra characters that can trigger signature help
 		})
 
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
