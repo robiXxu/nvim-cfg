@@ -24,31 +24,66 @@ return {
 			end,
 		})
 
+		vim.api.nvim_set_hl(0, "StatusLine", { bg = "none", ctermbg = "none" })
+		vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none", ctermbg = "none" })
+		local custom_transparent_theme = {
+			normal = {
+				a = { fg = "#81a1c1", bg = "none", gui = "bold" },
+				b = { fg = "#d8dee9", bg = "none" },
+				c = { fg = "#d8dee9", bg = "none" },
+			},
+			insert = { a = { fg = "#b48ead", bg = "none", gui = "bold" } },
+			visual = { a = { fg = "#ebcb8b", bg = "none", gui = "bold" } },
+			replace = { a = { fg = "#bf616a", bg = "none", gui = "bold" } },
+			inactive = {
+				a = { fg = "#4c566a", bg = "none" },
+				b = { fg = "#4c566a", bg = "none" },
+				c = { fg = "#4c566a", bg = "none" },
+			},
+		}
+
+		local sep = ""
+
 		return {
 			options = {
-				theme = "horizon",
-				section_separators = { left = "", right = "" },
-				component_separators = { left = "", right = "" },
+				globalstatus = true,
+				-- theme = "nord",
+				theme = custom_transparent_theme,
+				section_separators = { right = sep, left = sep },
+				component_separators = { right = sep, left = sep },
+				-- section_separators = { left = "", right = "" },
+				-- component_separators = { left = "", right = "" },
 			},
 			sections = {
 				lualine_a = {
+					{
+						function()
+							return ""
+						end,
+						color = { bg = "#ff2525", fg = "#ffffff", gui = "bold" },
+						separator = { left = " ", right = " " },
+						padding = { left = 1, right = 1 },
+					},
 					mode_icons,
 				},
 				lualine_b = {
-					{ "branch", icon = "󰊤", colored = true, color = { fg = "#eb6f92", gui = "bold" } },
+					{
+						"branch",
+						icon = "󰊤",
+						color = { fg = "#eb6f92", gui = "bold" },
+					},
 					{
 						"diff",
-						colored = true,
+						color = { fg = "#eb6f92", gui = "bold" },
 						symbols = {
 							added = " ",
 							modified = " ",
 							removed = " ",
 						},
 						diff_color = {
-							-- Explicitly using Horizon-style colors to make them "pop"
-							added = { fg = "#29D398" }, -- Horizon Green
-							modified = { fg = "#FAB795" }, -- Horizon Orange/Gold
-							removed = { fg = "#E95678" }, -- Horizon Red/Pink
+							added = { fg = "#29D398", gui = "bold" },
+							modified = { fg = "#FAB795", gui = "bold" },
+							removed = { fg = "#E95678", gui = "bold" },
 						},
 					},
 					{
@@ -64,7 +99,6 @@ return {
 					{
 						"filetype",
 						icon_only = true,
-						colored = true,
 						separator = "",
 						padding = { left = 1, right = 0 }, -- Tighten the gap
 						cond = function()
@@ -114,7 +148,17 @@ return {
 					-- "filetype",
 				},
 				lualine_y = { "progress" },
-				lualine_z = { "location" },
+				lualine_z = {
+					"location",
+					{
+						function()
+							return ""
+						end,
+						color = { bg = "#ff2525", fg = "#ffffff", gui = "bold" },
+						separator = { left = " ", right = " " },
+						padding = { left = 1, right = 1 },
+					},
+				},
 			},
 		}
 	end,

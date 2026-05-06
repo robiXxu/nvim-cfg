@@ -26,15 +26,23 @@ return {
 		defaults = {
 			debug = true,
 			winblend = 0,
-			layout_strategy = "vertical",
+			layout_strategy = "flex",
 			layout_config = {
+				horizontal = {
+					width = 0.9,
+					height = 0.8,
+					preview_width = 0.5, -- Adjust this to change how much space the preview takes
+					prompt_position = "top",
+				},
+				-- You can keep the vertical config for when the window is too narrow
 				vertical = {
 					width = 0.8,
 					height = 0.9,
 					prompt_position = "top",
 				},
 			},
-			prompt_prefix = " ❯ ",
+			prompt_prefix = "  ",
+			-- prompt_prefix = " ❯ ",
 			selection_caret = "  ",
 			initial_mode = "insert",
 			sorting_strategy = "ascending",
