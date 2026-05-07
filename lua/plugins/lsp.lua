@@ -71,6 +71,18 @@ return {
 			},
 		}
 
+		vim.lsp.config["eslint"] = {
+			capabilities = capabilities,
+			settings = {
+				eslint = {
+					codeAction = {
+						disableRuleComment = { enable = true, location = "separateLine" },
+						showDocumentation = { enable = true },
+					},
+				},
+			},
+		}
+
 		-- Lua
 		vim.lsp.config["lua_ls"] = {
 			capabilities = capabilities,
@@ -105,6 +117,18 @@ return {
 						timeout = 2000,
 					})
 					announced_servers[client.id] = true
+				end
+				if client and client.name == "eslint" then
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = event.buf,
+						callback = function()
+							-- This is the native equivalent of EslintFixAll
+							vim.lsp.buf.code_action({
+								context = { only = { "source.fixAll.eslint" } },
+								apply = true,
+							})
+						end,
+					})
 				end
 				if client and client.name == "vtsls" then
 					-- 1. Organize Imports (Force Relative)

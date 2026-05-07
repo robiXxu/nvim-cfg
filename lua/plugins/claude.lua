@@ -10,7 +10,9 @@ return {
 		},
 	},
 	config = function()
-		require("claudecode").setup({
+		local claudecode = require("claudecode")
+
+		claudecode.setup({
 			ui = {
 				mode = "float", -- "split" or "float"
 				split_width = 80, -- width of split panel
@@ -21,7 +23,7 @@ return {
 				input_max_height = 10, -- maximum height of the input box
 			},
 			keymaps = {
-				toggle = "<leader>cc", -- toggle chat window
+				-- toggle = "<leader>cc", -- toggle chat window
 				send = "<leader>cs", -- focus input
 				context = "<leader>cx", -- send with file context
 				visual = "<leader>cv", -- send visual selection
@@ -50,5 +52,18 @@ return {
 			permission_mode = nil, -- permission mode for claude CLI
 			binary_path = nil, -- custom path to bridge binary
 		})
+		-- 3. The "Smart Root" logic
+		-- This function searches upwards for .claude or .git
+		local function open_claude_at_root()
+			local root = vim.fs.root(0, { ".claude" })
+			if root then
+				vim.api.nvim_set_current_dir(root)
+			end
+
+			vim.cmd("Claude")
+		end
+
+		-- 4. Bind your toggle key to the smart function
+		vim.keymap.set("n", "<leader>cc", open_claude_at_root, { desc = "Claude (Smart Root)" })
 	end,
 }
