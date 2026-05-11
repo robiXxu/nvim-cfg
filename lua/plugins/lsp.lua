@@ -101,12 +101,15 @@ return {
 				},
 			},
 		}
-		local announced_servers = {}
+
 		-- Keybinds (LspAttach)
+
+		local announced_servers = {}
 		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(event)
 				local opts = { buffer = event.buf }
 				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+				vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
 				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 
 				-- The specific command for vtsls relative imports

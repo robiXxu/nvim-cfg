@@ -51,8 +51,6 @@ return {
 				theme = custom_transparent_theme,
 				section_separators = { right = sep, left = sep },
 				component_separators = { right = sep, left = sep },
-				-- section_separators = { left = "", right = "" },
-				-- component_separators = { left = "", right = "" },
 			},
 			sections = {
 				lualine_a = {
@@ -130,7 +128,7 @@ return {
 					{
 						claude_code,
 						-- The rest of your styling stays the same
-						separator = { left = "", right = "" },
+						-- separator = { left = "", right = "" },
 						color = { bg = "#232530", gui = "bold" },
 					},
 					{

@@ -1,69 +1,97 @@
 return {
-	"douglasjordan2/claudecode.nvim",
-	build = function()
-		require("claudecode.build").install()
-	end,
+	"greggh/claude-code.nvim",
 	dependencies = {
-		{
-			"nvim-lualine/lualine.nvim",
-			dependencies = { "nvim-tree/nvim-web-devicons" },
-		},
+		"nvim-lua/plenary.nvim",
+		"nvim-lualine/lualine.nvim",
 	},
 	config = function()
-		local claudecode = require("claudecode")
+		local claude = require("claude-code")
 
-		claudecode.setup({
-			ui = {
-				mode = "float", -- "split" or "float"
-				split_width = 80, -- width of split panel
-				float_width = 0.7, -- float width (0-1 = fraction, >1 = pixels)
-				float_height = 0.8, -- float height (0-1 = fraction, >1 = pixels)
-				border = "rounded", -- border style for float windows
-				input_min_height = 2, -- minimum height of the input box
-				input_max_height = 10, -- maximum height of the input box
-			},
-			keymaps = {
-				-- toggle = "<leader>cc", -- toggle chat window
-				send = "<leader>cs", -- focus input
-				context = "<leader>cx", -- send with file context
-				visual = "<leader>cv", -- send visual selection
-				inline_edit = "<leader>ce", -- inline edit selection
-				abort = "<leader>ca", -- abort current request
-				accept_diff = "<leader>cy", -- accept diff in diff viewer
-				reject_diff = "<leader>cn", -- reject diff in diff viewer
-				sessions = "<leader>cl", -- list/resume sessions
-			},
-			statusline = {
-				icons = {
-					idle = "󰚩",
-					thinking = "󱜸",
-					streaming = "󰊳",
-					tool_use = "󰒓",
-					error = "󰅚",
+		claude.setup({
+			-- Terminal window settings
+			window = {
+				position = "float", -- Use floating window for better focus
+				-- split_ratio = 0.3,
+				-- position = "botright", -- Bottom split for a "panel" feel
+				enter_insert = true,
+				hide_numbers = true,
+				hide_signcolumn = true,
+				float = {
+					width = "80%",
+					height = "80%",
+					border = "rounded",
 				},
 			},
-			truncation = {
-				tool_result = 120, -- max length for tool result display
-				command = 60, -- max length for command display
+			-- File refresh settings
+			refresh = {
+				enable = true,
+				updatetime = 100,
+				timer_interval = 1000,
+				show_notifications = true,
 			},
-			model = nil, -- override Claude model
-			allowed_tools = nil, -- restrict available tools
-			append_system_prompt = nil, -- append to system prompt
-			permission_mode = nil, -- permission mode for claude CLI
-			binary_path = nil, -- custom path to bridge binary
+			-- Git project settings
+			git = {
+				use_git_root = true, -- Auto-roots to project for @codebase context
+			},
+			-- Statusline integration for our custom component
+			statusline = {
+				enabled = true,
+				updates = true,
+			},
+			-- Command settings
+			command = "claude",
+			command_variants = {
+				continue = "--continue",
+				resume = "--resume",
+				verbose = "--verbose",
+			},
+			-- Internal Keymaps
+			keymaps = {
+				toggle = {
+					normal = "<leader>cc",
+					terminal = "<C-,>", -- Quick escape
+					variants = {
+						continue = "<leader>cC",
+						resume = "<leader>cl",
+					},
+				},
+				window_navigation = true,
+				scrolling = true,
+			},
 		})
-		-- 3. The "Smart Root" logic
-		-- This function searches upwards for .claude or .git
-		local function open_claude_at_root()
-			local root = vim.fs.root(0, { ".claude" })
-			if root then
-				vim.api.nvim_set_current_dir(root)
-			end
 
-			vim.cmd("Claude")
-		end
+		-- --- ADVANCED CUSTOM KEYMAPS ---
+		vim.keymap.set("n", "<leader>cs", function()
+			claude.setup({ window = { position = "vertical" } })
+			claude.toggle()
+		end, { desc = "Claude: Sidebar" })
 
-		-- 4. Bind your toggle key to the smart function
-		vim.keymap.set("n", "<leader>cc", open_claude_at_root, { desc = "Claude (Smart Root)" })
+		-- KEYMAP: Floating Window Toggle
+		-- vim.keymap.set("n", "<leader>cf", function()
+		-- 	claude.setup({ window = { position = "float" } })
+		-- 	claude.toggle()
+		-- end, { desc = "Claude: Float" })
+
+		-- 1. Context: Copy relative path and open Claude
+		-- Useful for Bedrock: "/add <path>"
+		vim.keymap.set("n", "<leader>cx", function()
+			local path = vim.fn.expand("%:.")
+			vim.fn.setreg("+", path)
+			vim.notify("Path copied: " .. path .. ". Use /add in Claude.")
+			claude.toggle()
+		end, { desc = "Claude: Add File Context" })
+
+		-- 2. Visual: Send selection to Claude via clipboard
+		vim.keymap.set("v", "<leader>cv", function()
+			vim.cmd('normal! "yy')
+			claude.toggle()
+			vim.notify("Selection copied. Paste into Claude.")
+		end, { desc = "Claude: Send Selection" })
+
+		-- 3. Kill: Force stop the session (Reset Bedrock if it hangs)
+		vim.keymap.set("n", "<leader>ck", function()
+			claude.stop()
+			vim.notify("Claude session killed.", vim.log.levels.WARN)
+		end, { desc = "Claude: Kill Session" })
 	end,
 }
