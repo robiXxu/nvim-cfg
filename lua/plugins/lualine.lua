@@ -131,11 +131,11 @@ return {
 						-- separator = { left = "", right = "" },
 						color = { bg = "#232530", gui = "bold" },
 					},
-					{
-						claude_usage,
-						padding = { left = 1, right = 1 },
-						color = { fg = "#f6c177", gui = "bold" },
-					},
+					-- {
+					-- 	claude_usage,
+					-- 	padding = { left = 1, right = 1 },
+					-- 	color = { fg = "#f6c177", gui = "bold" },
+					-- },
 					{
 						file_icon,
 						padding = { left = 1, right = 2 },
